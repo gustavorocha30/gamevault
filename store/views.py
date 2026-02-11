@@ -14,10 +14,9 @@ def home(request):
         # Pega o pedido ABERTO
         pedido = Pedido.objects.filter(cliente=request.user, completo=False).first()
         if pedido:
-            pedido.completo = True # FECHA O PEDIDO
+            pedido.completo = True 
             pedido.save()
         
-    # ----------------------------------
 
     # Lógica de Busca
     query = request.GET.get('q') 
@@ -110,7 +109,7 @@ def library(request):
     items_comprados = []
     
     if request.user.is_authenticated:
-        # 1. Busca todos os pedidos FECHADOS (completo=True) do usuário
+        # 1. Busca todos os pedidos FECHADOS do usuário
         pedidos_fechados = Pedido.objects.filter(cliente=request.user, completo=True)
         
         # 2. Percorre cada pedido e pega os itens dentro dele

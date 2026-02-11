@@ -20,7 +20,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 from store import views
 
-# --- ADICIONE ESTA LINHA AQUI EMBAIXO ---
 from django.contrib.auth import views as auth_views 
 # ----------------------------------------
 
@@ -34,7 +33,7 @@ urlpatterns = [
     
     path('logout/', views.signout, name='logout'),
 
-    # Agora essa linha vai funcionar porque importamos o auth_views lá em cima
+
     path('login/', auth_views.LoginView.as_view(template_name='usuarios/login.html'), name='login'),
     
     path('usuarios/', include('usuarios.urls')),
