@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br" class="dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GameVault | Login</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    
+    <link rel="stylesheet" href="{% static 'usuarios/css/style_login.css' %}">
+</head>
+<body class="min-h-screen flex items-center justify-center bg-[#0a0a0c]">
+
+    <div class="flex w-full h-screen">
+        <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-black">
+            <img class="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj-IYMmUz4OOpiURPOpZEALmlzdURIKXtx975cZbNVV9eGAXQpvwUGGTRARoedgou5a5hymGtmn-n7cDTWMSKLg4zQFtshyEgQITEtVAqgZPJG3ayXMOyOvh3oh1oQFEh_BYlJ2VFEbGVLelsl-X1kBc5ZwSKhaKk4hFsH0aF1_aEu3MW1WnPB_o_s4WN71pMX7PQR826g9lHp8B5oP1Jhjm_NjD3QPIEgZs1Biu94HNqnm3Of7Mi9_8IJK-9iKj0UUPCGGyGcW_w">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0a0c]"></div>
+            <div class="absolute bottom-12 left-12">
+                <h1 class="text-5xl font-black mb-4 uppercase">Join the <br><span class="text-[#135bec]">Evolution.</span></h1>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 flex items-center justify-center px-6">
+            <div class="w-full max-w-md">
+                <h2 class="text-3xl font-bold mb-2 text-white">Acesse sua conta</h2>
+                <p class="text-slate-500 mb-8">Entre para gerenciar seu Vault.</p>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-xl mb-6 text-sm flex items-center gap-3">
+                            <span class="material-symbols-outlined text-base">error</span>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <span class="material-symbols-outlined">mail</span>
+                        <input type="text" name="username" placeholder="Usuário ou E-mail" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="material-symbols-outlined">lock</span>
+                        <input type="password" name="password" placeholder="Sua senha" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">ENTRAR</button>
+                </form>
+
+               <p class="mt-8 text-center text-slate-500 text-sm">
+    Não tem uma conta? 
+    <a href="{% url 'registrar' %}" class="text-white font-bold hover:text-blue-500">Cadastre-se grátis</a>
+</p>
+
+<div class="mt-6 pt-6 border-t border-slate-800">
+    <a href="{% url 'login_recrutador' %}" class="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl border border-blue-600/50 text-blue-400 hover:bg-blue-600/10 transition-all font-medium text-sm">
+        <span class="material-symbols-outlined text-sm">badge</span>
+        SOU RECRUTADOR (ACESSO RÁPIDO)
+    </a>
+</div>

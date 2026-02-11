@@ -1,0 +1,27 @@
+# Arquivos de Sistema e IDE
+.DS_Store
+.vscode/
+
+# Python e Django
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+*.pot
+*.pyc
+*.pyd
+
+# Ambientes Virtuais 
+env/
+venv/
+.venv/
+
+# Banco de Dados 
+db.sqlite3
+db.sqlite3-journal
+
+# Arquivos de Mídia 
+media/
+
+# SEGURANÇA 
+.env

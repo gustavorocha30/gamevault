@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br" class="dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GameVault | Criar Conta</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'usuarios/css/style_login.css' %}">
+</head>
+<body class="min-h-screen flex items-center justify-center bg-[#0a0a0c]">
+    <div class="flex w-full h-screen">
+        <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-black">
+            <img class="w-full h-full object-cover opacity-50" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0a0c]"></div>
+        </div>
+
+        <div class="w-full lg:w-1/2 flex items-center justify-center px-6">
+            <div class="w-full max-w-md">
+                <h2 class="text-3xl font-bold mb-2 text-white">Crie sua conta</h2>
+                <p class="text-slate-500 mb-8">Faça parte da nova era dos games.</p>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="{% if message.tags == 'error' %}bg-red-500/10 border-red-500/50 text-red-500{% else %}bg-green-500/10 border-green-500/50 text-green-500{% endif %} border p-3 rounded-xl mb-6 text-sm flex items-center gap-3">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <span class="material-symbols-outlined">person</span>
+                        <input type="text" name="username" placeholder="Nome de usuário" required>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="material-symbols-outlined">mail</span>
+                        <input type="email" name="email" placeholder="Seu melhor e-mail" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="material-symbols-outlined">lock</span>
+                        <input type="password" name="password" placeholder="Crie uma senha" required>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="material-symbols-outlined">enhanced_encryption</span>
+                        <input type="password" name="confirm_password" placeholder="Confirme sua senha" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">CADASTRAR AGORA</button>
+                </form>
+
+                <p class="mt-8 text-center text-slate-500 text-sm">
+                    Já tem uma conta? 
+                    <a href="{% url 'login' %}" class="text-white font-bold hover:text-blue-500">Voltar para o Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

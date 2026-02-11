@@ -1,0 +1,43 @@
+/* Importação de Fontes e Ícones */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Efeitos Personalizados */
+.neon-glow:hover {
+    box-shadow: 0 0 15px rgba(19, 91, 236, 0.4);
+}
+
+/* Utilitário para esconder scrollbar mantendo funcionalidade */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Estilo do Box de Resumo que segue o scroll */
+.summary-box {
+    position: sticky;
+    top: 6rem;
+    background-color: #161b26; /* surface-dark */
+    border: 1px solid #1e293b; /* slate-800 */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    height: fit-content;
+}
+
+.neon-glow:hover {
+    box-shadow: 0 0 15px rgba(19, 91, 236, 0.4);
+}

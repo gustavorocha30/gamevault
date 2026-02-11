@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>GameVault | Your Shopping Cart</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0a0a0c", 
+                        "surface-dark": "#161b26",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: { 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem" 
+                    },
+                },
+            },
+        }
+    </script>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    
+    <script type="text/javascript">
+        var user = '{{ request.user }}';
+        function getToken(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getToken('csrftoken');
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+    
+    <header class="sticky top-0 z-50 w-full border-b border-slate-800 bg-background-dark/80 backdrop-blur-md">
+        <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between gap-4">
+            
+            <a href="{% url 'home' %}" class="flex items-center gap-2 group cursor-pointer shrink-0">
+                <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">sports_esports</span>
+                </div>
+                <h2 class="text-xl font-bold leading-tight tracking-tight hidden sm:block">GameVault</h2>
+            </a>
+
+            <form method="GET" action="{% url 'home' %}" class="relative w-full max-w-md hidden md:block">
+                <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+                <input 
+                    type="text" 
+                    name="q" 
+                    value="{{ request.GET.q }}" 
+                    class="w-full h-10 pl-10 pr-4 rounded-lg bg-surface-dark border border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary text-sm text-white placeholder-slate-500 transition-all" 
+                    placeholder="Pesquisar jogos..."
+                />
+            </form>
+
+            <div class="flex items-center gap-6 shrink-0">
+                
+                <a href="{% url 'cart' %}" class="relative group" title="Carrinho">
+                    <span class="material-symbols-outlined text-2xl text-slate-400 group-hover:text-white transition-colors">shopping_cart</span>
+                    <span class="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold size-5 flex items-center justify-center rounded-full border border-background-dark shadow-sm">
+                        {{ carrinho_items }}
+                    </span>
+                </a>
+
+                {% if user.is_authenticated %}
+                <div class="h-8 w-px bg-slate-800"></div>
+
+                <a href="{% url 'library' %}" class="flex items-center gap-3 group">
+                    <div class="text-right hidden lg:block">
+                        <p class="text-[10px] uppercase font-bold text-slate-500 group-hover:text-slate-400">Minha Coleção</p>
+                        <p class="text-sm font-bold text-white group-hover:text-primary transition-colors flex items-center gap-1">
+                            BIBLIOTECA 
+                        </p>
+                    </div>
+                    <div class="size-9 rounded-full bg-surface-dark border border-slate-700 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-all">
+                        <span class="material-symbols-outlined text-slate-300 group-hover:text-primary text-sm">inventory_2</span>
+                    </div>
+                </a>
+
+                <a href="/logout" class="ml-2 group text-slate-500 hover:text-red-500 transition-colors" title="Sair da Conta">
+                    <span class="material-symbols-outlined text-2xl">logout</span>
+                </a>
+                
+                {% else %}
+                <a href="/login" class="px-6 py-2 bg-primary hover:bg-blue-600 text-white text-sm font-bold rounded-lg transition-colors shadow-lg shadow-blue-900/20">
+                    Entrar
+                </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </header>
+
+    <main class="max-w-[1440px] mx-auto px-6 py-10">
+        <div class="flex flex-col gap-2 mb-8">
+            <h1 class="text-4xl font-black tracking-tighter uppercase">Teu Carrinho</h1>
+            <p class="text-slate-500">Tens {{ pedido.get_cart_items }} itens no carrinho</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <div class="lg:col-span-8 space-y-6">
+                
+                {% for item in itens %}
+                <div class="flex items-center gap-6 p-6 bg-surface-dark/50 border border-slate-800 rounded-2xl hover:border-primary/50 transition-colors group">
+                    <div class="size-24 rounded-lg overflow-hidden shrink-0">
+                        <img src="{{ item.produto.imagem.url }}" class="w-full h-full object-cover" alt="{{ item.produto.nome }}">
+                    </div>
+                    <div class="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded">Compra</span>
+                            <h3 class="text-xl font-bold group-hover:text-primary transition-colors">{{ item.produto.nome }}</h3>
+                        </div>
+                        <div class="flex items-center gap-8">
+                            <div class="flex items-center gap-3 bg-background-dark rounded-lg p-1 border border-slate-800">
+                                <button data-product="{{ item.produto.id }}" data-action="remove" class="update-cart size-8 flex items-center justify-center hover:bg-slate-800 rounded">-</button>
+                                <span class="font-bold">{{ item.quantidade }}</span>
+                                <button data-product="{{ item.produto.id }}" data-action="add" class="update-cart size-8 flex items-center justify-center hover:bg-slate-800 rounded">+</button>
+                            </div>
+                            <p class="text-xl font-black">${{ item.get_total }}</p>
+                            <button data-product="{{ item.produto.id }}" data-action="delete" class="update-cart text-slate-500 hover:text-red-500">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="p-10 text-center border-2 border-dashed border-slate-800 rounded-2xl">
+                    <p class="text-slate-500">Seu carrinho está vazio. <a href="{% url 'home' %}" class="text-primary font-bold">Voltar para a loja</a></p>
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="lg:col-span-4">
+                <div class="bg-surface-dark/50 border border-slate-800 p-8 rounded-2xl h-fit">
+                    <h2 class="text-xl font-bold mb-6">Resumo do Pedido</h2>
+                    <div class="space-y-4 mb-8 text-slate-400">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span class="text-white">${{ pedido.get_cart_total }}</span>
+                        </div>
+                        <div class="flex justify-between text-emerald-500 font-bold">
+                            <span>Envio</span>
+                            <span>GRÁTIS</span>
+                        </div>
+                        <div class="h-px bg-slate-800 my-2"></div>
+                        <div class="flex justify-between items-end text-white">
+                            <span class="text-lg font-bold">Total</span>
+                            <span class="text-3xl font-black text-primary">${{ pedido.get_cart_total }}</span>
+                        </div>
+                    </div>
+                    <button id="btn-pagar" class="w-full py-4 bg-primary text-white font-black rounded-xl shadow-lg hover:scale-[1.02] transition-transform">Pagar Agora</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
