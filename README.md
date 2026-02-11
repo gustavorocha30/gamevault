@@ -12,8 +12,8 @@
 ## 📸 Screenshots
 
 <div style="display: flex; gap: 10px;">
-    <img src="static/images/screenshot_home.png" alt="Home Page" width="400">
-    <img src="static/images/screenshot_library.png" alt="Minha Biblioteca" width="400">
+    <img src="screenshots/home.png" alt="Home Page" width="400">
+    <img src="screenshots/biblioteca.png" alt="Minha Biblioteca" width="400">
 </div>
 
 ---
